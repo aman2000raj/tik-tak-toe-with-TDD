@@ -24,5 +24,15 @@ describe('Game Component', () => {
     userEvent.click(getAllByRole('button', { name: '' })[0]);
     userEvent.click(getAllByRole('button', { name: '' })[0]);
     expect(getByTestId('next-player')).toBeInTheDocument();
-  })
+  });
+
+  it('should declare a winner when a row is filled', () => {
+    render(<Game />);
+    const { getAllByRole, getByTestId } = screen;
+    userEvent.click(getAllByRole('button', { name: '' })[0]);
+    userEvent.click(getAllByRole('button', { name: '' })[1]);
+    userEvent.click(getAllByRole('button', { name: '' })[2]);
+
+    expect(getByTestId('next-player')).toBeInTheDocument();
+  });
 });
