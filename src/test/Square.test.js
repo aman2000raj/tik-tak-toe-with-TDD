@@ -8,4 +8,6 @@ describe('Square Component', () => {
 
     expect(getByText('X')).toBeInTheDocument();
   });
+
+  it("should trigger the onSquareClick prop when clicked", () => {})
 });
