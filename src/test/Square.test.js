@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import Square from '../components/Square';
 
 describe('Square Component', () => {
@@ -9,5 +9,13 @@ describe('Square Component', () => {
     expect(getByText('X')).toBeInTheDocument();
   });
 
-  it("should trigger the onSquareClick prop when clicked", () => {})
+  it('should trigger the onSquareClick prop when clicked', () => {
+    const mockOnSquareClick = vi.fn();
+    const { getByText } = render(
+      <Square value='0' onSquareClick={mockOnSquareClick} />
+    );
+    fireEvent.click(getByText('0'));
+
+    expect(mockOnSquareClick).toHaveBeenCalledTimes(1);
+  });
 });
