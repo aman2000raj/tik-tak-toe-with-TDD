@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import Game from "./components/Game";
 
 function App() {
 
   return (
     <>
-      <h1>HI</h1>
+      <Game />
     </>
   )
 }
