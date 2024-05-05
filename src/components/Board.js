@@ -1,12 +1,18 @@
 import React from 'react';
 import Square from './Square';
+import calculateWinnner from './calculateWinner';
 
 function Board({ squares, onPlay }) {
+  const winner = calculateWinnner(squares);
+  let status = winner ? `Winner: ${winner}` : '';
+
   function handleClick(idx) {
     // Todo
+    onPlay();
   }
   return (
     <>
+      <div className='status'>{status}</div>
       <div className='board-row'>
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
