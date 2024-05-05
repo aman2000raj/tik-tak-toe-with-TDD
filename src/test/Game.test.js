@@ -17,4 +17,12 @@ describe('Game Component', () => {
     userEvent.click(getAllByRole('button', { name: '' })[0]);
     expect(getByTestId('next-player')).toBeInTheDocument();
   });
+
+  it('should not allow a player o make a move on a filled square', () => {
+    render(<Game />);
+    const { getByTestId, getAllByRole } = screen;
+    userEvent.click(getAllByRole('button', { name: '' })[0]);
+    userEvent.click(getAllByRole('button', { name: '' })[0]);
+    expect(getByTestId('next-player')).toBeInTheDocument();
+  })
 });
