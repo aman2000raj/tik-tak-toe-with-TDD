@@ -2,17 +2,28 @@ import React from 'react';
 import Square from './Square';
 import calculateWinnner from './calculateWinner';
 
-function Board({ squares, onPlay }) {
+function Board({ xIsNext, squares, onPlay }) {
   const winner = calculateWinnner(squares);
-  let status = winner ? `Winner: ${winner}` : '';
+  let status = winner
+    ? `Winner: ${winner}`
+    : `Next Player: ${xIsNext ? 'X' : 'O'}`;
 
   function handleClick(idx) {
-    // Todo
-    onPlay();
+    if (squares[idx] || calculateWinnner(squares)) return;
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[idx] = 'X';
+    } else {
+      nextSquares[idx] = 'O';
+    }
+
+    onPlay(nextSquares);
   }
   return (
     <>
-      <div className='status'>{status}</div>
+      <div data-testid='next-player' className='status'>
+        {status}
+      </div>
       <div className='board-row'>
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
