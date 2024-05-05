@@ -20,5 +20,10 @@ describe('Board Compoent', () => {
     expect(mockOnPlay).toHaveBeenCalledTimes(1);
   });
 
-  it('should display the winner when a row is filled', () => {});
+  it('should display the winner when a row is filled', () => {
+    const squares = ['X', 'X', 'X', null, null, null, null, null, null];
+    render(<Board squares={squares} onPlay={vi.fn()} />);
+
+    expect(screen.getByText('Winner: X')).toBeInTheDocument();
+  });
 });
