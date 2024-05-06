@@ -24,33 +24,55 @@ describe('play tic-tac-toe', () => {
     cy.get('.status').should('contain', 'Next Player: O'); // Verify status update
   });
 
-  //   it("click on the first cell", () => {
-  //       const firstSquare = cy.get('button[data-testid="cell-0"]');
-  //       firstSquare.click();
-  //       it("check if the first cell has an X", () => {
-  //           firstSquare.contains("X");
-  //       });
-  //   });
+  it('should not allow a player to make a move on a filled square', () => {
+    cy.visit('/');
 
-  //   it("click on the second cell", () => {
-  //       const secondSquare = cy.get('button[data-testid="cell-1"]');
-  //       secondSquare.click();
-  //       it("check if the second cell has an O", () => {
-  //           secondSquare.contains("O");
-  //       });
-  //   });
+    cy.get('.square').first().click(); // Click the first square
 
-  //   it("X wins", () => {
-  //       const fourthSquare = cy.get('button[data-testid="cell-3"]');
-  //       const thirdSquare = cy.get('button[data-testid="cell-2"]');
-  //       const seventhSquare = cy.get('button[data-testid="cell-6"]');
+    cy.get('.square').first().click(); // Click the same square again
 
-  //       fourthSquare.click();
-  //       thirdSquare.click();
-  //       seventhSquare.click();
-  //       cy.get('div[data-testid="status"]').contains("X wins!");
-  //   });
-  // });
+    cy.get('.status').should('be.visible'); // Assert element is visible
+
+    cy.get('.status').should('contain', 'Next Player: O'); // Verify status remains unchanged
+  });
+
+  it('play tik tak toe and X wins', () => {
+    cy.visit('/');
+
+    const firstSquare = cy.get('.square').eq(0);
+    const seventhSquare = cy.get('.square').eq(6);
+    const secondSquare = cy.get('.square').eq(1);
+    const ninthSquare = cy.get('.square').eq(8);
+    const thirdSquare = cy.get('.square').eq(2);
+
+    firstSquare.click();
+    seventhSquare.click();
+    secondSquare.click();
+    ninthSquare.click();
+    thirdSquare.click();
+
+    cy.get('.status').should('contain', 'Winner: X');
+  });
+
+  it('play tik tak toe and O wins', () => {
+    cy.visit('/');
+
+    const firstSquare = cy.get('.square').eq(0);
+    const secondSquare = cy.get('.square').eq(1);
+    const fourthSquare = cy.get('.square').eq(3);
+    const fifthSquare = cy.get('.square').eq(4);
+    const thirdSquare = cy.get('.square').eq(2);
+    const eighthSquare = cy.get('.square').eq(7);
+
+    firstSquare.click();
+    secondSquare.click();
+    fourthSquare.click();
+    fifthSquare.click();
+    thirdSquare.click();
+    eighthSquare.click();
+
+    cy.get('.status').should('contain', 'Winner: O');
+  });
 
   // describe("play tic-tac-toe and O wins", () => {
   //   it("visit url", () => {
