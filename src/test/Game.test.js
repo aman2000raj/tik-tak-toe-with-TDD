@@ -1,6 +1,6 @@
 import React from 'react';
 import Game from '../components/Game';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Game Component', () => {
@@ -34,5 +34,27 @@ describe('Game Component', () => {
     userEvent.click(getAllByRole('button', { name: '' })[2]);
 
     expect(getByTestId('next-player')).toBeInTheDocument();
+  });
+
+  it('should allow jumping to previous moves using the move history', () => {
+    render(<Game />);
+    const { getAllByRole, getAllByTestId } = screen;
+
+    userEvent.click(getAllByRole('button', { name: '' })[0]);
+    userEvent.click(getAllByRole('button', { name: '' })[4]);
+    userEvent.click(getAllByRole('button', { name: '' })[1]);
+    userEvent.click(getAllByRole('button', { name: '' })[2]);
+
+    fireEvent.click(getAllByTestId('moves')[0]); // Go to game start
+
+    expect(getAllByRole('button', { name: '' })).toHaveLength(9); // Verify all Squares are empty.
+
+    userEvent.click(getAllByRole('button', { name: '' })[0]);
+    userEvent.click(getAllByRole('button', { name: '' })[4]);
+
+    userEvent.click(screen.getAllByTestId('moves')[1]); // Go to first move
+
+    expect(getAllByRole('button', { name: '' })[0]).toBeInTheDocument();
+    expect(getAllByRole('button', { name: '' })[4]).toBeInTheDocument();
   });
 });
