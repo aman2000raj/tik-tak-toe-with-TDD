@@ -74,54 +74,24 @@ describe('play tic-tac-toe', () => {
     cy.get('.status').should('contain', 'Winner: O');
   });
 
-  // describe("play tic-tac-toe and O wins", () => {
-  //   it("visit url", () => {
-  //       cy.visit("http://localhost:3000");
-  //   });
+  it('should allow jumping to previous moves using the move history', () => {
+    cy.visit('/');
 
-  //   it("O wins", () => {
-  //       const firstSquare = cy.get('button[data-testid="cell-0"]');
-  //       const secondSquare = cy.get('button[data-testid="cell-1"]');
-  //       const fourthSquare = cy.get('button[data-testid="cell-3"]');
-  //       const fifthSquare = cy.get('button[data-testid="cell-4"]');
-  //       const thirdSquare = cy.get('button[data-testid="cell-2"]');
-  //       const eighthSquare = cy.get('button[data-testid="cell-7"]');
+    // Simulate making some moves
+    cy.get('.square').eq(0).click(); // Click first square
+    cy.get('.square').eq(4).click(); // Click fifth square
+    cy.get('.square').eq(1).click(); // Click second square
 
-  //       firstSquare.click();
-  //       secondSquare.click();
-  //       fourthSquare.click();
-  //       fifthSquare.click();
-  //       thirdSquare.click();
-  //       eighthSquare.click();
-  //       cy.get('div[data-testid="status"]').contains("O wins!");
-  //   });
-  // });
+    // Click on a move in the history to go back
+    cy.get('.game-info button').contains('Go to move #1').click(); // Replace with actual selector
 
-  // describe("play tic-tac-toe and draw", () => {
-  //   it("visit url", () => {
-  //       cy.visit("http://localhost:3000");
-  //   });
+    // Verify board state after going back
+    cy.get('.square').eq(0).should('have.text', 'X'); // First move remains
+    cy.get('.square').eq(1).should('have.text', ''); // Second move not made yet
+    cy.get('.square').eq(4).should('not.have.text', 'O'); // Fifth move not made yet
+    cy.get('.status').should('contain', 'Next Player: O'); // Status update
 
-  //   it("draw", () => {
-  //       const firstSquare = cy.get('button[data-testid="cell-0"]');
-  //       const secondSquare = cy.get('button[data-testid="cell-1"]');
-  //       const thirdSquare = cy.get('button[data-testid="cell-2"]');
-  //       const fourthSquare = cy.get('button[data-testid="cell-3"]');
-  //       const fifthSquare = cy.get('button[data-testid="cell-4"]');
-  //       const sixthSquare = cy.get('button[data-testid="cell-5"]');
-  //       const seventhSquare = cy.get('button[data-testid="cell-6"]');
-  //       const eighthSquare = cy.get('button[data-testid="cell-7"]');
-  //       const ninthSquare = cy.get('button[data-testid="cell-8"]');
-
-  //       firstSquare.click();
-  //       fifthSquare.click();
-  //       thirdSquare.click();
-  //       secondSquare.click();
-  //       eighthSquare.click();
-  //       fourthSquare.click();
-  //       sixthSquare.click();
-  //       ninthSquare.click();
-  //       seventhSquare.click();
-  //       cy.get('div[data-testid="status"]').contains("It's a draw!");
-  //   });
+    cy.get('.game-info ol li').first().click(); // Go to game start
+    cy.get('.square').eq(0).should('be.empty'); // Square should be empty again
+  });
 });
